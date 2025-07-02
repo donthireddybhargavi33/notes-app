@@ -25,8 +25,9 @@ function App() {
         } else {
             // Otherwise, return the default hardcoded events
             return {
-                '2024-05-15': [{ id: 1, text: 'Project Deadline' }],
-                '2024-05-28': [{ id: 2, text: 'React Meetup' }]
+        '2024-07-26': [{ id: 1, text: 'Doctor Appointment 🩺' }],
+        '2024-08-15': [{ id: 2, text: 'Project Deadline! 🚀' }],
+
             };
         }
     });
@@ -45,10 +46,9 @@ function App() {
         setIsPanelOpen(true);
     };
 
-    // Handler for closing the event panel
+   
     const handlePanelClose = () => {
         setIsPanelOpen(false);
-        setSelectedDate(null);
     };
 
     // Handler for adding a new event
@@ -70,16 +70,19 @@ function App() {
     };
     
     // Handler for deleting an event
-    const handleDeleteEvent = (eventId) => {
+  const handleDeleteEvent = (eventId) => {
         if (!selectedDate) return;
-
         const dateKey = formatDateKey(selectedDate);
-        setEvents((prevEvents) => {
-            const updatedEventsForDay = prevEvents[dateKey].filter(event => event.id !== eventId);
-            return { ...prevEvents, [dateKey]: updatedEventsForDay };
-        });
-    }
 
+        const updatedEventsForDate = events[dateKey].filter(event => event.id !== eventId);
+
+        setEvents({
+            ...events,
+            [dateKey]: updatedEventsForDate,
+        });
+    };
+
+       const eventsForSelectedDate = selectedDate ? events[formatDateKey(selectedDate)] || [] : [];
     // --- ADD THE REMINDER LOGIC HOOK ---
     useEffect(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
@@ -134,8 +137,6 @@ function App() {
 
         checkReminders();
     
-     
-    const eventsForSelectedDate = selectedDate ? events[formatDateKey(selectedDate)] || [] : [];
   return (
     <div>
   <Routes>
@@ -149,14 +150,16 @@ function App() {
                 onDateClick={handleDateClick}
                 events={events}
             />
-            <EventPanel
-                isOpen={isPanelOpen}
-                onClose={() => setIsPanelOpen(false)}
-                selectedDate={selectedDate}
-                onAddEvent={handleAddEvent}
-                onDeleteEvent={(eventId) => { /* your delete logic */ }}
-                events={selectedDate ? events[formatDateKey(selectedDate)] || [] : []}
-            />
+             {isPanelOpen && selectedDate && (
+                    <EventPanel
+                        isOpen={isPanelOpen}
+                        onClose={handlePanelClose} // <-- FIX #1: Pass the close handler
+                        selectedDate={selectedDate}
+                        onAddEvent={handleAddEvent}
+                        onDeleteEvent={handleDeleteEvent} // <-- FIX #2: Pass the delete handler
+                        events={eventsForSelectedDate} // <-- FIX #3: Pass the correct, filtered events
+                    />
+                )}
              <ToastContainer
                 position="bottom-right"
                 autoClose={3000}

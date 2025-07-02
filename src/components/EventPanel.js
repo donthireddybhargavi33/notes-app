@@ -1,15 +1,34 @@
-// src/components/EventPanel.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Picker from 'emoji-picker-react';
 import '../styles/EventPanel.css';
 
 const EventPanel = ({ isOpen, onClose, selectedDate, onAddEvent, onDeleteEvent, events }) => {
     const [eventText, setEventText] = useState('');
+    const [showPicker, setShowPicker] = useState(false);
+
+    // --- THIS IS THE FIX ---
+    // The emoji data object is now the FIRST argument.
+    // The second argument is the mouse event, which we can ignore if we don't need it.
+    const onEmojiClick = (emojiObject) => {
+        setEventText(prevInput => prevInput + emojiObject.emoji);
+        // Optional: close the picker after an emoji is selected
+        // setShowPicker(false);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (eventText.trim() === '') return;
         onAddEvent(eventText);
-        setEventText(''); // Clear input after adding
+        setEventText('');
+        setShowPicker(false);
     };
+
+    useEffect(() => {
+        if (!isOpen) {
+            setShowPicker(false);
+        }
+    }, [isOpen]);
+
 
     if (!isOpen) {
         return null;
@@ -35,16 +54,29 @@ const EventPanel = ({ isOpen, onClose, selectedDate, onAddEvent, onDeleteEvent, 
                     )}
                 </div>
 
-                <form onSubmit={handleSubmit} className="add-event-form">
-                    <input
-                        type="text"
-                        value={eventText}
-                        onChange={(e) => setEventText(e.target.value)}
-                        placeholder="Add a new event..."
-                        autoFocus
-                    />
-                    <button type="submit">Add Event</button>
-                </form>
+                <div className="form-container">
+                    <form onSubmit={handleSubmit} className="add-event-form">
+                        <div className="input-wrapper">
+                             <input
+                                type="text"
+                                value={eventText}
+                                onChange={(e) => setEventText(e.target.value)}
+                                placeholder="Add a new event..."
+                                autoFocus
+                            />
+                             <button type="button" className="emoji-btn" onClick={() => setShowPicker(val => !val)}>
+                                😊
+                            </button>
+                        </div>
+                        <button type="submit">Add Event</button>
+                    </form>
+
+                    {showPicker && (
+                        <div className="picker-container">
+                            <Picker onEmojiClick={onEmojiClick} />
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );

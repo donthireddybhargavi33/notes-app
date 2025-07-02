@@ -1,4 +1,5 @@
 /* src/styles/EventPanel.css */
+
 .panel-overlay {
     position: fixed;
     top: 0;
@@ -63,6 +64,11 @@
     align-items: center;
 }
 
+.event-item span {
+    word-break: break-word;
+    margin-right: 10px;
+}
+
 .delete-event-btn {
     background: #ff52dd;
     color: white;
@@ -78,35 +84,108 @@
     color: #888;
 }
 
-.add-event-form {
-    margin-top: 2rem;
+/* =================================================== */
+/* === NEW & IMPROVED FORM STYLES (REPLACE OLD ONES) === */
+/* =================================================== */
+
+.form-container {
+    position: relative;
+    margin-top: auto; /* Pushes form to the bottom of the panel */
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0; /* Clean separator line */
 }
 
+.add-event-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    flex-grow: 1; /* Make the input field take up available space */
+}
+
+/* --- The Input Field --- */
 .add-event-form input {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #4a3f7a;
-    background: #1c163a;
-    color: white;
+    padding: 12px 45px 12px 15px; /* Top/Bottom, Right (for emoji), Left */
     font-size: 1rem;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
+    color: #333;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Softer corners */
+    box-sizing: border-box; /* Important for padding and width */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.add-event-form button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: #a879ff;
-    color: #0c0a1f;
-    font-size: 1.1rem;
+/* --- Professional Focus State --- */
+.add-event-form input:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* --- The Submit Button --- */
+.add-event-form button[type="submit"] {
+    padding: 12px 20px;
+    font-size: 1rem;
     font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    flex-shrink: 0; /* Prevent the button from shrinking */
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.add-event-form button:hover {
-    background: #c5a6ff;
+.add-event-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
+
+.add-event-form button[type="submit"]:active {
+    transform: scale(0.98); /* Click effect */
+}
+
+/* --- Disabled State for the Submit Button --- */
+.add-event-form button[type="submit"]:disabled {
+    background-color: #a0c7ff; /* Washed out color */
+    cursor: not-allowed;
+}
+
+/* --- The Emoji Button --- */
+.emoji-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 0 8px;
+    color: #aaa;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1; /* Helps with vertical alignment */
+}
+
+.emoji-btn:hover {
+    color: #555;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* --- The Emoji Picker Container --- */
+.picker-container {
+    position: absolute;
+    bottom: 100%; /* Position it right above the form */
+    right: 0;
+    margin-bottom: 10px;
+    z-index: 10;
+}
+
+.picker-container .emoji-picker-react {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+    border: 1px solid #eee !important;
 }

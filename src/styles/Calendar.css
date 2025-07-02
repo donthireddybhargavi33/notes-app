@@ -113,3 +113,79 @@
     z-index: 0;
     animation: pulse 2.5s infinite; /* The glowing, pulsing animation */
 }
+
+.month-year-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.picker-button {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.picker-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Styles for the selection widgets (common parts) */
+.selector-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+    background-color:blueviolet;
+    border-radius: 8px;
+    border-top: 1px solid #eee;
+}
+
+.selector-grid button {
+    padding: 10px 5px;
+    border-radius: 6px;
+    border: none;
+    background-color: indigo;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 14px;
+    border: 1px solid indigo;
+    font-weight: bold;
+}
+
+.selector-grid button:hover {
+    background-color: black;
+    color: white;
+}
+
+.selector-grid button.selected {
+    background-color: #358be6;
+    color: white;
+    font-weight: bold;
+}
+
+/* Specific styles for year selector widget */
+.year-selector-widget {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.selector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.selector-header button {
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.year-selector {
+    grid-template-columns: repeat(4, 1fr); /* Years in a 4-column grid */
+}
