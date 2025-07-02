@@ -1,0 +1,115 @@
+/* src/styles/Calendar.css */
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(255, 82, 221, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 10px 15px rgba(255, 82, 221, 0);
+    }
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(255, 82, 221, 0);
+    }
+}
+
+.calendar-container {
+    background: rgba(23, 20, 48, 0.7);
+    border: 1px solid #4a3f7a;
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    color: #e0e0e0;
+}
+
+.calendar-header button {
+    background: #4a3f7a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.calendar-header button:hover {
+    background: #6a5a9e;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.weekday-cell {
+    font-weight: bold;
+    color: #a879ff;
+    padding-bottom: 10px;
+}
+
+.date-cell {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    background-color: #1c163a;
+    border-radius: 50%; /* Make it a circle */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.date-cell:not(.empty):hover {
+    border-color: #a879ff;
+    transform: translateY(-5px);
+}
+
+.date-cell.empty {
+    background-color: transparent;
+    cursor: default;
+}
+
+.day-number {
+    z-index: 1;
+    font-size: 1.2rem;
+}
+
+.date-cell.today .day-number {
+    color: #ff52dd;
+    font-weight: bold;
+}
+
+/* THE CREATIVE NOTIFICATION - "EVENT STAR" */
+.date-cell.has-event {
+    background-color: #6a5a9e; /* Base color for the star */
+    color: white;
+}
+
+.date-cell.has-event::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,130,229,0.7) 0%, rgba(179,94,255,0.3) 70%);
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    animation: pulse 2.5s infinite; /* The glowing, pulsing animation */
+}

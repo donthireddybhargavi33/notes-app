@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+/* src/styles/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #0c0a1f; /* Deep space blue */
+    color: #e0e0e0;
+    overflow-x: hidden; /* Prevent horizontal scroll when panel is out */
+}
+
+.app-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #a879ff;
+    text-shadow: 0 0 10px #a879ff, 0 0 20px #a879ff;
+    margin-bottom: 2rem;
+}
