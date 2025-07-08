@@ -1,5 +1,4 @@
 import './App.css';
-import {  Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home/home';
 import React, { useState, useEffect } from 'react';
 import Calendar from './components/Calendar';
@@ -139,9 +138,9 @@ function App() {
     
   return (
     <div>
-  <Routes>
-    <Route path ="/" element={<Home />} />
-  </Routes>
+    <div className="bg-slate-100 min-h-screen">
+      <Home />
+    </div>
     <div className="app-container">
             <h1 className="main-title">Calendar</h1>
             <Calendar

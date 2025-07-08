@@ -1,25 +1,63 @@
 /* src/styles/Calendar.css */
+
+/*
+ * =========================================
+ *  COLOR PALETTE & THEME VARIABLES
+ * =========================================
+ */
+:root {
+    /* Base & Layers */
+    --color-bg-deep: #0D1117;          /* Deepest space background */
+    --color-bg-primary: #1A2238;       /* Primary surface color (date cells) */
+    --color-bg-container: rgba(23, 29, 48, 0.7); /* Semi-transparent container bg */
+    --color-border: #4A3F7A;           /* Borders and subtle dividers */
+
+    /* Accents */
+    --color-accent-interactive: #00BFFF; /* Cyan for hover, selection, 'today' */
+    --color-accent-highlight: #E63995;   /* Magenta for major events/notifications */
+
+    /* Text */
+    --color-text-primary: #E0E1E6;     /* Main text (headers, numbers) */
+    --color-text-secondary: #A8B2D1;    /* Secondary text (weekdays) */
+
+    /* Fonts */
+    --font-primary: 'Orbitron', sans-serif;
+}
+
+
+/*
+ * =========================================
+ *  KEYFRAMES & ANIMATIONS
+ * =========================================
+ */
 @keyframes pulse {
     0% {
-        transform: scale(0.9);
-        box-shadow: 0 0 0 0 rgba(255, 82, 221, 0.7);
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(230, 57, 149, 0.7);
     }
     70% {
         transform: scale(1);
-        box-shadow: 0 0 10px 15px rgba(255, 82, 221, 0);
+        box-shadow: 0 0 0 10px rgba(230, 57, 149, 0);
     }
     100% {
-        transform: scale(0.9);
-        box-shadow: 0 0 0 0 rgba(255, 82, 221, 0);
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(230, 57, 149, 0);
     }
 }
 
+
+/*
+ * =========================================
+ *  MAIN CALENDAR STYLES
+ * =========================================
+ */
 .calendar-container {
-    background: rgba(23, 20, 48, 0.7);
-    border: 1px solid #4a3f7a;
-    border-radius: 15px;
+    background: var(--color-bg-container);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
     padding: 20px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
 }
 
 .calendar-header {
@@ -27,26 +65,26 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-primary);
 }
 
 .calendar-header h2 {
     margin: 0;
-    color: #e0e0e0;
+    color: var(--color-text-primary);
 }
 
 .calendar-header button {
-    background: #4a3f7a;
+    background: var(--color-border);
     border: none;
-    color: white;
+    color: var(--color-text-primary);
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .calendar-header button:hover {
-    background: #6a5a9e;
+    background: color-mix(in srgb, var(--color-border), white 15%); /* Lighten on hover */
 }
 
 .calendar-grid {
@@ -57,8 +95,9 @@
 
 .weekday-cell {
     font-weight: bold;
-    color: #a879ff;
+    color: var(--color-text-secondary); /* Less prominent color */
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .date-cell {
@@ -67,16 +106,18 @@
     justify-content: center;
     align-items: center;
     height: 80px;
-    background-color: #1c163a;
-    border-radius: 50%; /* Make it a circle */
+    background-color: var(--color-bg-primary);
+    border-radius: 8px; /* Slightly more modern radius */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease-out;
     border: 2px solid transparent;
+    color: var(--color-text-secondary);
 }
 
 .date-cell:not(.empty):hover {
-    border-color: #a879ff;
-    transform: translateY(-5px);
+    border-color: var(--color-accent-interactive);
+    transform: translateY(-4px);
+    background-color: color-mix(in srgb, var(--color-bg-primary), black 20%);
 }
 
 .date-cell.empty {
@@ -87,89 +128,57 @@
 .day-number {
     z-index: 1;
     font-size: 1.2rem;
+    font-weight: 500;
 }
 
 .date-cell.today .day-number {
-    color: #ff52dd;
+    color: var(--color-accent-interactive); /* Use interactive accent for 'today' */
     font-weight: bold;
+    text-shadow: 0 0 8px var(--color-accent-interactive);
 }
+
 
 /* THE CREATIVE NOTIFICATION - "EVENT STAR" */
 .date-cell.has-event {
-    background-color: #6a5a9e; /* Base color for the star */
-    color: white;
+    /* The base cell is more subtle, letting the animation be the star */
+    background-color: color-mix(in srgb, var(--color-bg-primary), var(--color-accent-highlight) 15%);
+    color: var(--color-text-primary);
 }
 
 .date-cell.has-event::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 90%;
-    height: 90%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,130,229,0.7) 0%, rgba(179,94,255,0.3) 70%);
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px; /* Match the parent */
     z-index: 0;
-    animation: pulse 2.5s infinite; /* The glowing, pulsing animation */
+    animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    /* The animation is now a subtle, glowing box-shadow */
 }
 
+
+/*
+ * =========================================
+ *  MONTH & YEAR PICKER WIDGETS
+ * =========================================
+ */
 .month-year-picker {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
-.picker-button {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    padding: 5px 10px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.picker-button:hover {
-    background-color: #f0f0f0;
-}
-
-/* Styles for the selection widgets (common parts) */
-.selector-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 10px;
-    background-color:blueviolet;
-    border-radius: 8px;
-    border-top: 1px solid #eee;
-}
-
-.selector-grid button {
-    padding: 10px 5px;
-    border-radius: 6px;
-    border: none;
-    background-color: indigo;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-    font-size: 14px;
-    border: 1px solid indigo;
-    font-weight: bold;
-}
-
-.selector-grid button:hover {
-    background-color: black;
-    color: white;
-}
-
-.selector-grid button.selected {
-    background-color: #358be6;
-    color: white;
-    font-weight: bold;
-}
-
-/* Specific styles for year selector widget */
-.year-selector-widget {
+/* Base styles for the pop-up selectors */
+.selector-widget {
+    position: absolute; /* Assuming it's a pop-up */
+    background: var(--color-bg-deep);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     padding: 10px;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .selector-header {
@@ -178,14 +187,60 @@
     align-items: center;
     margin-bottom: 10px;
     font-weight: bold;
-    padding: 0 10px;
+    padding: 0 5px;
+    color: var(--color-text-primary);
 }
 
-.selector-header button {
-    font-weight: bold;
+.selector-header button,
+.picker-button {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
     padding: 5px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.selector-header button:hover,
+.picker-button:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--color-accent-interactive);
+}
+
+.selector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns often work better for months */
+    gap: 8px;
 }
 
 .year-selector {
-    grid-template-columns: repeat(4, 1fr); /* Years in a 4-column grid */
+    grid-template-columns: repeat(4, 1fr); /* 4 is good for years */
+}
+
+.selector-grid button {
+    padding: 10px 5px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.selector-grid button:hover {
+    background-color: var(--color-border);
+    border-color: var(--color-accent-interactive);
+    color: var(--color-text-primary);
+}
+
+.selector-grid button.selected {
+    background-color: var(--color-accent-interactive);
+    color: var(--color-bg-deep); /* High contrast text on selected */
+    font-weight: bold;
+    border-color: var(--color-accent-interactive);
 }

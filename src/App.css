@@ -60,9 +60,10 @@ body {
 }
 
 .main-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'sans-serif';
     font-size: 3rem;
-    color: #a879ff;
-    text-shadow: 0 0 10px #a879ff, 0 0 20px #a879ff;
+    color:var(--color-bg-secondary);;
+    text-shadow: 0 0 1px #a879ff, 0 0 3px #a879ff;
     margin-bottom: 2rem;
 }
+
